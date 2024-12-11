@@ -2,6 +2,7 @@ pipeline {
 	agent {
 		docker {
 			image "python:latest"
+			args '--name jenkins_pylint_test'
 			args "--user root"
 		}
 	}
@@ -10,7 +11,14 @@ pipeline {
 			steps{
 				sh "ls -la"
 				sh "pip install pylint"
-				sh "pylint pipe3/app.py"
+				sh "pylint pipe3/app.py  --fail-under=8.0"
+			}
+		}
+		stage("build docker image") {
+			steps{
+				sh "docker images"
+				sh "docker commit jenkins_pylint_test jenkins_pylint:v1"
+				sh "docker images"
 			}
 		}
 	}
