@@ -1,7 +1,7 @@
 pipeline {
 	agent {
 		docker {
-			image "python:lates"
+			image "python:latest"
 			args "--user root"
 		}
 	}
