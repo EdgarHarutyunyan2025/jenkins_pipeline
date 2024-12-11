@@ -5,6 +5,11 @@ pipeline {
 				steps {
 					sh "ls -la"
 				}
-			}
+			stage("test2") {
+				steps {
+					sh "echo 'hello world' > text.txt"
+				}
+			}	
 		}
 	}
+}
