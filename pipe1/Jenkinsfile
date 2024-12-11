@@ -1,0 +1,10 @@
+pipeline {
+  	agent {label ""}
+		stages {
+			stage("test1"){
+				steps {
+					sh "ls -la"
+				}
+			}
+		}
+	}
