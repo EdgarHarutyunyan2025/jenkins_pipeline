@@ -14,6 +14,9 @@ pipeline {
 			}
 		}
 		stage("build docker image") {
+ 		  when {
+        expression { return currentBuild.result == 'SUCCESS' }
+    			 }
 			steps{
 				sh "docker ps"
 				sh "docker build -t jenkins-pylint-test:v1 ./pipe3/"
