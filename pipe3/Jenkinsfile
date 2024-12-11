@@ -1,11 +1,5 @@
 pipeline {
-	agent {
-		docker {
-			image "python:latest"
-			args '--name jenkins_pylint_test'
-			args "--user root"
-		}
-	}
+	agent any 
 	stages {
 		stage("pylint test") {
 			steps{
@@ -17,7 +11,7 @@ pipeline {
 		stage("build docker image") {
 			steps{
 				sh "docker ps"
-				sh "docker commit jenkins_pylint_test jenkins_pylint:v1"
+				sh "docker build -t Jenkins_pylint_test:v1 ./app/"
 				sh "docker images"
 			}
 		}
