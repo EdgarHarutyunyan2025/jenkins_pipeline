@@ -1,16 +1,16 @@
 pipeline {
-	agent {
-		docker {
-			image "python:latest"
-			args "--user root"
-		  }
-		}
-	stages {
-		stage("docker test") {
-			steps {
-				sh "python --version"
+		agent {
+				docker {
+						image "python:latest"
+						args "--user root"
+		  		}
+			}
+		stages {
+				stage("docker test") {
+						steps {
+								sh "python --version"
 			}
 		} 
 	}
-}
+}			
 
