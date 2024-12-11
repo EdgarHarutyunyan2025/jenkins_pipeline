@@ -9,6 +9,7 @@ pipeline {
 			stage("test2") {
 				steps {
 					sh "echo 'hello world' > text.txt"
+					sh "ls -la && cat text.txt"
 				}
 			}	
 		}
