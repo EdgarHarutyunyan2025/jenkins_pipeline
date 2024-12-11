@@ -2,8 +2,8 @@ pipeline {
 	agent {
 		label ""
 	}
-	stages(test1) {
-		stage {
+	stages {
+		stage(test1) {
 			sh "echo 'hello world'"
 		}
 	}
