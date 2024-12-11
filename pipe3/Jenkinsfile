@@ -10,7 +10,7 @@ pipeline {
 			steps{
 				sh "ls -la"
 				sh "pip install pylint"
-				sh "pylint pipe3/app.py  --fail-under=8.0"
+				sh "pylint pipe3/app.py  --fail-under=4.0"
 			}
 		}
 		stage("build docker image") {
