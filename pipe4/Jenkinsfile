@@ -3,13 +3,14 @@ pipeline {
 		docker {
 			image "python:latesy"
 			args "--user root"
+		  }
 		}
 	stages {
 		stage("docker test") {
 			steps {
 				sh "python --version"
-				}
-			} 
-		}
+			}
+		} 
 	}
 }
+
