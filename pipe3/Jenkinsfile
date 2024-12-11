@@ -16,7 +16,7 @@ pipeline {
 		}
 		stage("build docker image") {
 			steps{
-				sh "docker images"
+				sh "docker ps"
 				sh "docker commit jenkins_pylint_test jenkins_pylint:v1"
 				sh "docker images"
 			}
