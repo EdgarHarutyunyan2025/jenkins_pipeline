@@ -15,7 +15,7 @@ pipeline {
 		}
 		stage("build docker image") {
  		  when {
-        expression { return currentBuild.result == 'SUCCESS' }
+        expression { return currentBuild.result == 'FAILURE' }
     			 }
 			steps{
 				sh "docker ps"
