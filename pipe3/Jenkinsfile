@@ -1,9 +1,15 @@
 pipeline {
-	agent any
+	agent {
+		docker {
+			image "python:lates"
+			args "--user root"
+		}
+	}
 	stages {
-		stage("test1") {
+		stage("pylint test") {
 			steps{
-				sh "echo 'hello world' && ls -la"
+				sh "pip install pylint"
+				sh "pylint app.py"
 			}
 		}
 	}
