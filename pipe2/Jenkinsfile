@@ -3,7 +3,7 @@ pipeline {
 		label ""
 	}
 	stages {
-		stage(test1) {
+		stage("test1") {
 			sh "echo 'hello world'"
 		}
 	}
