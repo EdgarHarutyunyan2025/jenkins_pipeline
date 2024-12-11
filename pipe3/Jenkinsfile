@@ -16,7 +16,7 @@ pipeline {
 		stage("build docker image") {
 			steps{
 				sh "docker ps"
-				sh "docker build -t Jenkins_pylint_test:v1 ./app/"
+				sh "docker build -t jenkins-pylint-test:v1 ./app/"
 				sh "docker images"
 			}
 		}
