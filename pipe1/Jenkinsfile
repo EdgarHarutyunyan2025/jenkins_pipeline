@@ -1,5 +1,11 @@
+properties([disableConcurrentBuilds()])
+
 pipeline {
   	agent {label ""}
+		options {
+			buildDiscarder(logRotator(numToKeepStr: '10'))
+			timestamps()
+		}
 		stages {
 			stage("test1"){
 				steps {
