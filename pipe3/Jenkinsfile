@@ -9,7 +9,7 @@ pipeline {
 	}
 	stages {
 		stage("pylint test") {
-			steps{
+			steps {
 				sh "ls -la"
 				sh "pip install pylint"
 				sh "pylint pipe3/app.py  --fail-under=4.0"
@@ -31,8 +31,8 @@ pipeline {
 					}
 				}
 			}
-		stage {
-			steps("push Docker Hub") {
+		stage("push Docker Hub") {
+			steps {
 				echo "========== start pushing image =========="
 				sh "docker push edo1997edo/jenkins-pylint-test:v1"
 				}
