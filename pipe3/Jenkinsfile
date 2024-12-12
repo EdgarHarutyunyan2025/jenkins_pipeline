@@ -18,9 +18,10 @@ pipeline {
 		stage("build docker image") {
 			steps{
 				sh "docker ps"
-				sh "docker build -t jenkins-pylint-test:v1 ./pipe3/"
+				sh "docker build -t edo1997edo/jenkins-pylint-test:v1 ./pipe3/"
 				sh "docker run --name jenkins_test jenkins-pylint-test:v1"
 				sh "docker images"
+				sh "docker rm jenkins_test"
 				}
 			}
 		stage("login Docker Hub") {
