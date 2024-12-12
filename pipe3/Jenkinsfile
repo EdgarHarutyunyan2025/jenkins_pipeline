@@ -23,8 +23,8 @@ pipeline {
 				sh "docker images"
 				}
 			}
-		stage {
-			steps("login Docker Hub") {
+		stage("login Docker Hub") {
+			steps {
 				echo "========== docker login =========="
 				withCredentials([usernamePassword(credentialsId:'loging_docker_hub',usernameVariable: 'USERNAME',passwordVariable: 'PASSWORD')]) {
 						sh "docker login -u $USERNAME -p $PASSWORD"
