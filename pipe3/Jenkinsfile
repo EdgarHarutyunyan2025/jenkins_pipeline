@@ -23,18 +23,18 @@ pipeline {
 				sh "docker images"
 				}
 			}
-			stage {
-				steps("login Docker Hub") {
-					echo "========== docker login =========="
-					withCredentials([usernamePassword(credentialsId:'loging_docker_hub',usernameVariable: 'USERNAME',passwordVariable: 'PASSWORD')]) {
+		stage {
+			steps("login Docker Hub") {
+				echo "========== docker login =========="
+				withCredentials([usernamePassword(credentialsId:'loging_docker_hub',usernameVariable: 'USERNAME',passwordVariable: 'PASSWORD')]) {
 						sh "docker login -u $USERNAME -p $PASSWORD"
 					}
 				}
 			}
-			stage {
-				steps("push Docker Hub") {
-					echo "========== start pushing image =========="
-					sh "docker push edo1997edo/jenkins-pylint-test:v1"
+		stage {
+			steps("push Docker Hub") {
+				echo "========== start pushing image =========="
+				sh "docker push edo1997edo/jenkins-pylint-test:v1"
 				}
 			}
 		}
