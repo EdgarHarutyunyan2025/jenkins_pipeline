@@ -6,7 +6,7 @@ pipeline {
 			image "python:latest"
 			args "--user root"
 		}
-	 environment { 
+	environment { 
         $USERNAME = 'edo1997edo'
     }
 	}
