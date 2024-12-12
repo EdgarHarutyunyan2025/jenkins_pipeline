@@ -50,12 +50,12 @@ pipeline {
     post {
         success {
             script {
-                sendTelegramMessage("✅ Job '${env.JOB_NAME}' [#${env.BUILD_NUMBER}] успешно завершён!")
+                sendTelegramMessage("✅ Job '${env.JOB_NAME}'  [#${env.BUILD_NUMBER}] SUCCESS !")
             }
         }
         failure {
             script {
-                sendTelegramMessage("❌ Job '${env.JOB_NAME}' [#${env.BUILD_NUMBER}] завершился с ошибкой.")
+                sendTelegramMessage("❌ Job '${env.JOB_NAME}' [#${env.BUILD_NUMBER}] FAILURE !")
             }
         }
     }
