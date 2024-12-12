@@ -6,6 +6,9 @@ pipeline {
 			image "python:latest"
 			args "--user root"
 		}
+	 environment { 
+        $USERNAME = 'edo1997edo'
+    }
 	}
 	stages {
 		stage("pylint test") {
@@ -17,9 +20,9 @@ pipeline {
 		}
 		stage("build docker image") {
 			steps{
-				sh "docker ps"
-				sh "docker build -t edo1997edo/jenkins-pylint-test:v1 ./pipe3/"
-				sh "docker run --name jenkins_test edo1997edo/jenkins-pylint-test:v1"
+				sh "echo $USERNAME"
+				sh "docker build -t $USERNAME/jenkins-pylint-test:v1 ./pipe3/"
+				sh "docker run --name jenkins_test $USERNAME/jenkins-pylint-test:v1"
 				sh "docker images"
 				sh "docker rm jenkins_test"
 				}
@@ -35,7 +38,7 @@ pipeline {
 		stage("push Docker Hub") {
 			steps {
 				echo "========== start pushing image =========="
-				sh "docker push edo1997edo/jenkins-pylint-test:v1"
+				sh "docker push $USERNAME/jenkins-pylint-test:v1"
 				}
 			}
 		}
