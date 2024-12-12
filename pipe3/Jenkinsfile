@@ -8,7 +8,7 @@ pipeline {
 		}
 	}
 	environment { 
-        $USERNAME = 'edo1997edo'
+        USERNAME = 'edo1997edo'
     }
 
 	stages {
