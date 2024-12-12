@@ -6,10 +6,11 @@ pipeline {
 			image "python:latest"
 			args "--user root"
 		}
+	}
 	environment { 
         $USERNAME = 'edo1997edo'
     }
-	}
+
 	stages {
 		stage("pylint test") {
 			steps {
