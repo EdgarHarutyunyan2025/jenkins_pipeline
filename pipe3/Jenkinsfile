@@ -14,6 +14,7 @@ pipeline {
 	stages {
 		stage("pylint test") {
 			steps {
+			  echo "========== pylint test =========="
 				sh "ls -la"
 				sh "pip install pylint"
 				sh "pylint pipe3/app.py  --fail-under=4.0"
@@ -21,11 +22,10 @@ pipeline {
 		}
 		stage("build docker image") {
 			steps{
-				sh "echo $USERNAME"
+			  echo "========== building Docker image =========="
 				sh "docker build -t $USERNAME/jenkins-pylint-test:v1 ./pipe3/"
-				sh "docker run --name jenkins_test $USERNAME/jenkins-pylint-test:v1"
+				sh "docker run  --rm  --name jenkins_test  $USERNAME/jenkins-pylint-test:v1"
 				sh "docker images"
-				sh "docker rm jenkins_test"
 				}
 			}
 		stage("login Docker Hub") {
