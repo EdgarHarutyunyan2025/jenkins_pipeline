@@ -14,7 +14,6 @@ pipeline {
 			steps {
 			  echo "========== pylint test =========="
 				sh "ls -la && python3 --version"
-				sh "apt install pip"
 				sh "pip install pylint"
 				sh "pylint pipe3/app.py  --fail-under=4.0"
 			}
