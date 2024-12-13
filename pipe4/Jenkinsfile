@@ -14,7 +14,7 @@ pipeline {
 			steps {
 			  echo "========== pylint test =========="
 				sh "ls -la && python3 --version"
-				sh "python3 -m venv myenv && source myenv/bin/activate"
+				sh "python3 -m venv myenv && . myenv/bin/activate"
 				sh "pip install pylint"
 				sh "pylint pipe3/app.py  --fail-under=4.0"
 			}
