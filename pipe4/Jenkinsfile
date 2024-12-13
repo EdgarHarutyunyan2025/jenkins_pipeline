@@ -3,7 +3,6 @@ properties([disableConcurrentBuilds()])
 pipeline {
 	agent any
 
-	}
 	environment { 
         USERNAME = 'edo1997edo'
 				TELEGRAM_CHAT_ID = credentials('telegramm_bot_id')
