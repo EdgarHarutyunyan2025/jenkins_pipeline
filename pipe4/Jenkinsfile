@@ -13,8 +13,7 @@ pipeline {
 		stage("pylint test") {
 			steps {
 			  echo "========== pylint test =========="
-				sh "ls -la"
-				sh "su -c 'apt install python && python --version'"
+				sh "ls -la && python3 --version"
 				sh "pip install pylint"
 				sh "pylint pipe3/app.py  --fail-under=4.0"
 			}
