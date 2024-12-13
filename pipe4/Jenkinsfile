@@ -1,16 +1,70 @@
+properties([disableConcurrentBuilds()])
+
 pipeline {
-	agent {
-		docker {
-			image "python:latest"
-			args "--user root"
+	agent any
+
+	}
+	environment { 
+        USERNAME = 'edo1997edo'
+				TELEGRAM_CHAT_ID = credentials('telegramm_bot_id')
+        TELEGRAM_BOT_TOKEN = credentials('telegramm_bot_token')
+    }
+
+	stages {
+		stage("pylint test") {
+			steps {
+			  echo "========== pylint test =========="
+				sh "ls -la"
+				sh "apt get install python && python --version"
+				sh "pip install pylint"
+				sh "pylint pipe3/app.py  --fail-under=4.0"
+			}
+		}
+
+		stage("build docker image") {
+			steps{
+			  echo "========== building Docker image =========="
+				sh "docker build -t $USERNAME/jenkins-pylint-test:v1 ./pipe3/"
+				sh "docker run  --rm  --name jenkins_test  $USERNAME/jenkins-pylint-test:v1"
+				sh "docker images"
 				}
 			}
-	stages {
-		stage("docker test") {
-			steps {
-				sh "python --version"
-			}
-		} 
-	}
-}			
 
+		stage("login Docker Hub") {
+			steps {
+				echo "========== docker login =========="
+				withCredentials([usernamePassword(credentialsId:'loging_docker_hub',usernameVariable: 'USERNAME',passwordVariable: 'PASSWORD')]) {
+						sh "docker login -u $USERNAME -p $PASSWORD"
+					}
+				}
+			}
+
+		stage("push Docker Hub") {
+			steps {
+				echo "========== start pushing image =========="
+				sh "docker push $USERNAME/jenkins-pylint-test:v1"
+				}
+			}
+		}
+
+    post {
+        success {
+            script {
+                sendTelegramMessage("✅ Job '${env.JOB_NAME}'  [#${env.BUILD_NUMBER}] SUCCESS !")
+            }
+        }
+        failure {
+            script {
+                sendTelegramMessage("❌ Job '${env.JOB_NAME}' [#${env.BUILD_NUMBER}] FAILURE !")
+            }
+        }
+    }
+}
+
+def sendTelegramMessage(String message) {
+    sh """
+        curl -s -X POST https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage \
+        -d chat_id=${env.TELEGRAM_CHAT_ID} \
+        -d text="${message}"
+    """
+}
