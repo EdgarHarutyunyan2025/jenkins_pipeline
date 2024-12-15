@@ -13,8 +13,12 @@ pipeline {
 		stage("pylint test") {
 			steps {
 			  echo "========== pylint test =========="
-				sh "ls -la && python3 --version"
-				sh "python3 -m venv venv && . venv/bin/activate  &&  pip install pylint && pylint --version "
+				sh '''python3 -m venv venv
+				      ls -la && python3 --version
+				      . venv/bin/activate
+							pip install pylint
+							pylint --version
+							pylint pipe4/app.py'''
 			}
 		}
 
