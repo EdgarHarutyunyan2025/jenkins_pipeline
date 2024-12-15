@@ -53,6 +53,7 @@ pipeline {
         failure {
             script {
                 sendTelegramMessage("❌ Job '${env.JOB_NAME}' [#${env.BUILD_NUMBER}] FAILURE !")
+								}
             }
         }
     }
