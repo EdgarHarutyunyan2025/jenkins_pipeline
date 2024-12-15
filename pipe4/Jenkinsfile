@@ -42,7 +42,7 @@ pipeline {
 				sh "docker push $USERNAME/jenkins-pylint-test:v1"
 				}
 			}
-
+   }
 
     post {
         success {
@@ -53,7 +53,7 @@ pipeline {
         failure {
             script {
                 sendTelegramMessage("❌ Job '${env.JOB_NAME}' [#${env.BUILD_NUMBER}] FAILURE !")
-								}
+								
             }
         }
     }
