@@ -18,16 +18,16 @@ pipeline {
 				      . venv/bin/activate
 							pip install pylint
 							pylint --version
-							pylint pipe4/app.py'''
+							pylint pipe4/app.py --fail-under=5.0'''
 			}
 		}
 
 		stage("build docker image") {
 			steps{
 			  echo "========== building Docker image =========="
-				sh "docker build -t $USERNAME/jenkins-pylint-test:v1 ./pipe4/"
-				sh "docker run  --rm  --name jenkins_test  $USERNAME/jenkins-pylint-test:v1"
-				sh "docker images"
+				sh '''docker build -t $USERNAME/jenkins-pylint-test:v1 ./pipe4/
+							docker run  --rm  --name jenkins_test  $USERNAME/jenkins-pylint-test:v1
+							docker images'''
 				}
 			}
 
