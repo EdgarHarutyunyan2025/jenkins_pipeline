@@ -20,7 +20,7 @@ pipeline {
 		stage("build docker image") {
 			steps{
 			  echo "========== building Docker image =========="
-				sh "docker build -t $USERNAME/jenkins-pylint-test:v1 ./pipe3/"
+				sh "docker build -t $USERNAME/jenkins-pylint-test:v1 ./pipe4/"
 				sh "docker run  --rm  --name jenkins_test  $USERNAME/jenkins-pylint-test:v1"
 				sh "docker images"
 				}
