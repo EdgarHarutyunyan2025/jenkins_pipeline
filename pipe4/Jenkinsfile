@@ -16,9 +16,10 @@ pipeline {
 				sh '''python3 -m venv venv
 				      ls -la && python3 --version
 				      . venv/bin/activate
-							pip install pylint
+							pip install -r requirements.txt
 							pylint --version
-							pylint pipe4/app.py --fail-under=5.0'''
+							pylint pipe4/app.py --fail-under=5.0
+							python3 pipe4/app.py'''
 			}
 		}
 
@@ -31,22 +32,17 @@ pipeline {
 				}
 			}
 
-		stage("login Docker Hub") {
+		stage("login Docker Hub and push image") {
 			steps {
 				echo "========== docker login =========="
 				withCredentials([usernamePassword(credentialsId:'loging_docker_hub',usernameVariable: 'USERNAME',passwordVariable: 'PASSWORD')]) {
 						sh "docker login -u $USERNAME -p $PASSWORD"
 					}
-				}
-			}
-
-		stage("push Docker Hub") {
-			steps {
 				echo "========== start pushing image =========="
 				sh "docker push $USERNAME/jenkins-pylint-test:v1"
 				}
 			}
-		}
+
 
     post {
         success {
