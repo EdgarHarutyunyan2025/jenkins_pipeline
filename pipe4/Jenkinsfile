@@ -18,6 +18,7 @@ pipeline {
     stage('Checkout') {
       steps {
         script {
+				  sh "ls -la" 
           echo "Building branch: ${params.BRANCH_NAME}"  
                 checkout scm: [
                 $class: 'GitSCM',
