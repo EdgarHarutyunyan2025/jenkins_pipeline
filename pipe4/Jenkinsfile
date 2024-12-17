@@ -10,7 +10,9 @@ pipeline {
 				TELEGRAM_CHAT_ID = credentials('telegramm_bot_id')
         TELEGRAM_BOT_TOKEN = credentials('telegramm_bot_token')
     }
-
+  parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'The branch to build')
+	}
 	stages {
 		stage("pylint test") {
 			steps {
