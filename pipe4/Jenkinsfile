@@ -30,26 +30,30 @@ pipeline {
 			}
 		}
 
-		stage("build docker image") {
+		stage("build docker image and push Docker Hub") {
 			steps{
 			  echo "========== building Docker image =========="
 				sh '''docker build -t $USERNAME/jenkins-pylint-test:v1 ./pipe4/
-							docker run  --rm  --name jenkins_test  $USERNAME/jenkins-pylint-test:v1
 							docker images'''
+
+        echo "========== docker login =========="
+        withCredentials([usernamePassword(credentialsId:'loging_docker_hub',usernameVariable: 'USERNAME',passwordVariable: 'PASSWORD')]) {
+             sh "docker login -u $USERNAME -p $PASSWORD"
+           } 
+
+        echo "========== start pushing image =========="
+        sh "docker push $USERNAME/jenkins-pylint-test:v1"	
 				}
 			}
 
-		stage("login Docker Hub and push image") {
+		stage("pull in Docker Hub") {
 			steps {
-				echo "========== docker login =========="
-				withCredentials([usernamePassword(credentialsId:'loging_docker_hub',usernameVariable: 'USERNAME',passwordVariable: 'PASSWORD')]) {
-						sh "docker login -u $USERNAME -p $PASSWORD"
-					}
-				echo "========== start pushing image =========="
-				sh "docker push $USERNAME/jenkins-pylint-test:v1"
+				echo "========== start pulling image =========="
+				sh """docker pull $USERNAME/jenkins-pylint-test:v1
+				      docker run  --rm  --name jenkins_test  $USERNAME/jenkins-pylint-test:v1 """
 				}
 			}
-   }
+   
 
     post {
         success {
