@@ -10,30 +10,12 @@ pipeline {
 				TELEGRAM_CHAT_ID = credentials('telegramm_bot_id')
         TELEGRAM_BOT_TOKEN = credentials('telegramm_bot_token')
     }
-  parameters {
-        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'The branch to build')
-	}
 	stages {
 		stage("list dir") {
 			steps {
         sh "ls -la"
 			}
 		}
-
-
-    stage('Checkout') {
-      steps {
-        script {
-          echo "Building branch: ${params.BRANCH_NAME}"  
-                checkout scm: [
-                $class: 'GitSCM',
-                branches: [[name: "*/${params.BRANCH_NAME}"]],
-                userRemoteConfigs: [[url: 'https://github.com/EdgarHarutyunyan2025/jenkins_pipeline.git']]
-                    ]
-                }
-            }
-        }
-
 
 		stage("pylint test") {
 			steps {
