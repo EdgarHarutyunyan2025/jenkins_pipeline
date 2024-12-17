@@ -1,6 +1,6 @@
+//	properties([disableConcurrentBuilds()])
 pipeline {
 	agent any
-	properties([disableConcurrentBuilds()])
 
 	environment { 
         USERNAME = 'edo1997edo'
