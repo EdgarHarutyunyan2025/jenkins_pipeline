@@ -8,9 +8,6 @@ pipeline {
         TELEGRAM_BOT_TOKEN = credentials('telegramm_bot_token')
     }
 
-  triggers {
-        githubPush()
-        }
 	stages {
 		stage("pylint test") {
 			steps {
