@@ -53,7 +53,7 @@ pipeline {
 				      docker run  --rm  --name jenkins_test  $USERNAME/jenkins-pylint-test:v1 """
 				}
 			}
-   
+   }
 
     post {
         success {
@@ -76,4 +76,5 @@ def sendTelegramMessage(String message) {
         -d chat_id=${env.TELEGRAM_CHAT_ID} \
         -d text="${message}"
     """
-}
+  }
+
