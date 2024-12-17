@@ -23,7 +23,11 @@ pipeline {
 				sh '''python3 -m venv venv
 				      ls -la && python3 --version
 				      . venv/bin/activate
-							pip install -r pipe4/requirements.txt
+							if ! command -v pylint &> /dev/null 
+							then
+							  echo "pylint not found"
+							  pip install -r pipe4/requirements.txt
+							fi
 							pylint --version
 							pylint pipe4/app.py --fail-under=5.0
 							python3 pipe4/app.py'''
