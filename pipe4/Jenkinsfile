@@ -14,11 +14,16 @@ pipeline {
         string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'The branch to build')
 	}
 	stages {
+		stage("list dir") {
+			steps {
+        sh "ls -la"
+			}
+		}
+
 
     stage('Checkout') {
       steps {
         script {
-				  sh "ls -la" 
           echo "Building branch: ${params.BRANCH_NAME}"  
                 checkout scm: [
                 $class: 'GitSCM',
