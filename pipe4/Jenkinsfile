@@ -2,9 +2,6 @@
 
 pipeline {
 	agent any
-  triggers {
-     githubPush()
-        }
 	environment { 
         USERNAME = 'edo1997edo'
 				TELEGRAM_CHAT_ID = credentials('telegramm_bot_id')
