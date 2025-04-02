@@ -1,0 +1,81 @@
+// properties([disableConcurrentBuilds()])
+
+pipeline {
+	agent any
+	environment { 
+        USERNAME = 'edo1997edo'
+				TELEGRAM_CHAT_ID = credentials('telegramm_bot_id')
+        TELEGRAM_BOT_TOKEN = credentials('telegramm_bot_token')
+    }
+	stages {
+		stage("list dir") {
+			steps {
+        sh "ls -la"
+			}
+		}
+
+		stage("pylint test") {
+			steps {
+			  echo "========== pylint test =========="
+				sh '''python3 -m venv venv
+				      ls -la && python3 --version
+				      . venv/bin/activate
+							if ! command -v pylint &> /dev/null 
+							then
+							  echo "pylint not found"
+							  pip install -r pipe4/requirements.txt
+							fi
+							pylint --version
+							pylint pipe4/app.py --fail-under=5.0
+							python3 pipe4/app.py'''
+			}
+		}
+
+		stage("build docker image and push Docker Hub") {
+			steps{
+			  echo "========== building Docker image =========="
+				sh '''docker build -t $USERNAME/jenkins-pylint-test:v1 ./pipe4/
+							docker images'''
+
+        echo "========== docker login =========="
+        withCredentials([usernamePassword(credentialsId:'loging_docker_hub',usernameVariable: 'USERNAME',passwordVariable: 'PASSWORD')]) {
+             sh "docker login -u $USERNAME -p $PASSWORD"
+           } 
+
+        echo "========== start pushing image =========="
+        sh "docker push $USERNAME/jenkins-pylint-test:v1"	
+				}
+			}
+
+		stage("pull in Docker Hub") {
+			steps {
+				echo "========== start pulling image =========="
+				sh """docker pull $USERNAME/jenkins-pylint-test:v1
+				      docker run  --rm  --name jenkins_test  $USERNAME/jenkins-pylint-test:v1 """
+				}
+			}
+   }
+
+    post {
+        success {
+            script {
+                sendTelegramMessage("✅ Job '${env.JOB_NAME}'  [#${env.BUILD_NUMBER}] SUCCESS !")
+            }
+        }
+        failure {
+            script {
+                sendTelegramMessage("❌ Job '${env.JOB_NAME}' [#${env.BUILD_NUMBER}] FAILURE !")
+		
+            }
+        }
+    }
+}
+
+def sendTelegramMessage(String message) {
+    sh """
+        curl -s -X POST https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage \
+        -d chat_id=${env.TELEGRAM_CHAT_ID} \
+        -d text="${message}"
+    """
+  }
+
